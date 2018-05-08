@@ -1,0 +1,29 @@
+cmake_minimum_required(VERSION 3.0)
+
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_LIST_DIR}")
+endif()
+
+include (ExternalProject)
+
+ExternalProject_Add(test1
+    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/test1"
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+)
+
+#file(GLOB_RECURSE SOURCES1 "${CMAKE_CURRENT_LIST_DIR}/test1/include/*" "${CMAKE_CURRENT_LIST_DIR}/test1/src/*")
+#ExternalProject_Add_Step(test1 foo
+#    DEPENDS ${SOURCES1}
+#    ALWAYS 1
+#)
+
+ExternalProject_Add(test2
+    SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/test2"
+    DEPENDS test1
+    CMAKE_ARGS
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+)
+
